@@ -7,6 +7,7 @@ package service;
 
 
 
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -28,6 +29,8 @@ public class ProxyClient {
      */
     public static void main(String[] args) {
         List<Facture> factures=new ArrayList<>();
+        if(System.getSecurityManager() == null) System.setSecurityManager(new
+        RMISecurityManager());
         try {
             
             Registry reg= LocateRegistry.getRegistry("localhost",1099);

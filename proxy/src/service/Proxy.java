@@ -6,6 +6,7 @@
 package service;
 
 import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,6 +23,8 @@ public class Proxy {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        if(System.getSecurityManager() == null) System.setSecurityManager
+        (new RMISecurityManager());
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
             ProxyFabImpl ob= new ProxyFabImpl();
