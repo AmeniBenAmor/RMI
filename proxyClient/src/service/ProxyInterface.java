@@ -20,6 +20,12 @@ public interface ProxyInterface extends Remote{
     public List<Facture> getVehiculeFacturesFromSIEntr2() throws RemoteException;
     public List<Facture> getVehiculeFacturesFromSIEntr3() throws RemoteException;
     public double sommeDesFactures() throws RemoteException;
+    public double sommeDesFacturesSIEntr1() throws RemoteException;
+    public double sommeDesFacturesSIEntr2() throws RemoteException;
+    public double sommeDesFacturesSIEntr3() throws RemoteException;
     public double moyenneDesFactures() throws RemoteException;
+    public double moyenneDesFacturesSIEntr1() throws RemoteException;
+    public double moyenneDesFacturesSIEntr2() throws RemoteException;
+    public double moyenneDesFacturesSIEntr3() throws RemoteException;
     
 }

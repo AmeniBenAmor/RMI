@@ -53,21 +53,14 @@ public class ProxyIMP extends UnicastRemoteObject implements ProxyInterface {
             clientSocket.receive(receivePacket);
             String receivedSentence = new String(receivePacket.getData());
             while(!receivedSentence.contains("end of sending")){
-                /*receivedSentences = receivedSentence.split(";");
-                try {
-                    System.out.println("\nFacture "+numFacture+":\nCode: " +receivedSentences[0]+"\nNom: "+receivedSentences[1]+"\nPrice: "+receivedSentences[2]);
-                } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                }
-                numFacture++;*/
+                
                 String[] split = receivedSentence.split(";");
                 result.add(new Facture(Integer.parseInt(split[0]), split[1], Float.parseFloat(split[2])));
                 receiveData = new byte[1024];
                 receivePacket=new DatagramPacket(receiveData, receiveData.length);
                 clientSocket.receive(receivePacket);
                 receivedSentence = new String(receivePacket.getData());
-                
-                
+   
             }
             System.out.println("\nterminé");
             clientSocket.close();
@@ -115,7 +108,8 @@ public class ProxyIMP extends UnicastRemoteObject implements ProxyInterface {
          List<Facture> result=new ArrayList<>();
         try {
             
-            SRMIInterface stub= (SRMIInterface) Naming.lookup("rmi://localhost:5100/SR");
+            SRMIFabInterface stubFab= (SRMIFabInterface) Naming.lookup("rmi://localhost:5100/SR");
+            SRMIInterface stub=(SRMIInterface) stubFab.newRMIServeur();
             factures=stub.getLesFacturesVehicule();
             for (String facture : factures) {
                 String[] split = facture.split(";");
@@ -136,10 +130,37 @@ public class ProxyIMP extends UnicastRemoteObject implements ProxyInterface {
         factures.addAll(this.getFacturesParapharmaceutiques());
         factures.addAll(this.getVehiculeFacturesFromSIEntr3());
         for (Facture facture : factures) {
-            
             somme +=(double) facture.getMontant();
-        
-            
+        }
+        return somme;
+    }
+    @Override
+    public double sommeDesFacturesSIEntr1() throws RemoteException {
+        List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getFacturesParapharmaceutiques());
+        for (Facture facture : factures) {
+            somme +=(double) facture.getMontant();
+        }
+        return somme;
+    }
+    @Override
+    public double sommeDesFacturesSIEntr2() throws RemoteException {
+        List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getVehiculeFacturesFromSIEntr2());
+        for (Facture facture : factures) {
+            somme +=(double) facture.getMontant();
+        }
+        return somme;
+    }
+    @Override
+    public double sommeDesFacturesSIEntr3() throws RemoteException {
+        List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getVehiculeFacturesFromSIEntr3());
+        for (Facture facture : factures) {
+            somme +=(double) facture.getMontant();
         }
         return somme;
     }
@@ -155,8 +176,45 @@ public class ProxyIMP extends UnicastRemoteObject implements ProxyInterface {
         for (Facture facture : factures) {
             nbrFacture++;
             somme +=(double) facture.getMontant();
-        
-            
+        }
+        return (double)(somme/(double)nbrFacture);
+    }
+    @Override
+    public double moyenneDesFacturesSIEntr1() throws RemoteException {
+    
+       int nbrFacture=0;
+       List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getFacturesParapharmaceutiques());
+        for (Facture facture : factures) {
+            nbrFacture++;
+            somme +=(double) facture.getMontant();
+        }
+        return (double)(somme/(double)nbrFacture);
+    }
+    @Override
+    public double moyenneDesFacturesSIEntr2() throws RemoteException {
+    
+       int nbrFacture=0;
+       List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getVehiculeFacturesFromSIEntr2());
+        for (Facture facture : factures) {
+            nbrFacture++;
+            somme +=(double) facture.getMontant();
+        }
+        return (double)(somme/(double)nbrFacture);
+    }
+    @Override
+    public double moyenneDesFacturesSIEntr3() throws RemoteException {
+    
+       int nbrFacture=0;
+       List<Facture> factures= new ArrayList<>();
+        double somme = 0;
+        factures.addAll(this.getVehiculeFacturesFromSIEntr3());
+        for (Facture facture : factures) {
+            nbrFacture++;
+            somme +=(double) facture.getMontant();
         }
         return (double)(somme/(double)nbrFacture);
     }

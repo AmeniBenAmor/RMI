@@ -31,7 +31,9 @@ public class ProxyClient {
         try {
             
             Registry reg= LocateRegistry.getRegistry("localhost",1099);
-            ProxyInterface proxy= (ProxyInterface) reg.lookup("proxy");
+            ProxyFabInterface fab= (ProxyFabInterface) reg.lookup("proxy");
+            ProxyInterface proxy=  (ProxyInterface) fab.newProxy();
+            
             Scanner reader = new Scanner(System.in);  
             System.out.println("\nLa somme: "+proxy.sommeDesFactures());
             System.out.println("\nLa moyenne: "+proxy.moyenneDesFactures());

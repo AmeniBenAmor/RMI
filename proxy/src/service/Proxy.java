@@ -24,7 +24,7 @@ public class Proxy {
     public static void main(String[] args) {
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
-            ProxyIMP ob= new ProxyIMP();
+            ProxyFabImpl ob= new ProxyFabImpl();
             Naming.bind("proxy", ob);
         } catch (Exception ex) {
             Logger.getLogger(Proxy.class.getName()).log(Level.SEVERE, null, ex);

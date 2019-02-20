@@ -24,8 +24,8 @@ public class ServeurRMI {
     public static void main(String[] args) {
         try {
             LocateRegistry.createRegistry(5100);
-            ServeurRMIImp od= new ServeurRMIImp();
-            Naming.rebind("rmi://localhost:5100/SR", od);
+            SRMIFabTmpl fab= new SRMIFabTmpl();
+            Naming.rebind("rmi://localhost:5100/SR", fab);
         } catch (Exception ex) {
             Logger.getLogger(ServeurRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
