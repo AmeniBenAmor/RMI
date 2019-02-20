@@ -27,7 +27,7 @@ public class ProxyClient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public ProxyClient() {
         List<Facture> factures=new ArrayList<>();
         if(System.getSecurityManager() == null) System.setSecurityManager(new
         RMISecurityManager());
